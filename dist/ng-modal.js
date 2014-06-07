@@ -34,7 +34,8 @@
         scope: {
           show: '=',
           dialogTitle: '@',
-          onClose: '&?'
+          onClose: '&?',
+          allowClose: '='
         },
         replace: true,
         transclude: true,
@@ -55,6 +56,11 @@
           scope.hideModal = function() {
             return scope.show = false;
           };
+          scope.closeClick = function() {
+            if ((scope.allowClose != null) || scope.allowClose === true) {
+              return scope.hideModal();
+            }
+          };
           scope.$watch('show', function(newVal, oldVal) {
             if (newVal && !oldVal) {
               document.getElementsByTagName("body")[0].style.overflow = "hidden";
@@ -68,7 +74,7 @@
           setupCloseButton();
           return setupStyle();
         },
-        template: "<div class='ng-modal' ng-show='show'>\n  <div class='ng-modal-overlay' ng-click='hideModal()'></div>\n  <div class='ng-modal-dialog' ng-style='dialogStyle'>\n    <span class='ng-modal-title' ng-show='dialogTitle && dialogTitle.length' ng-bind='dialogTitle'></span>\n    <div class='ng-modal-close' ng-click='hideModal()'>\n      <div ng-bind-html='closeButtonHtml'></div>\n    </div>\n    <div class='ng-modal-dialog-content' ng-transclude></div>\n  </div>\n</div>"
+        template: "<div class='ng-modal' ng-show='show'>\n  <div class='ng-modal-overlay' ng-click='closeClick()'></div>\n  <div class='ng-modal-dialog' ng-style='dialogStyle'>\n    <span class='ng-modal-title' ng-show='dialogTitle && dialogTitle.length' ng-bind='dialogTitle'></span>\n    <div ng-if='allowClose' class='ng-modal-close' ng-click='closeClick()'>\n      <div ng-bind-html='closeButtonHtml'></div>\n    </div>\n    <div class='ng-modal-dialog-content' ng-transclude></div>\n  </div>\n</div>"
       };
     }
   ]);
