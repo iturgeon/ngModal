@@ -30,7 +30,7 @@ app.directive 'modalDialog', ['ngModalDefaults', '$sce', (ngModalDefaults, $sce)
     show: '='
     dialogTitle: '@'
     onClose: '&?'
-    allowClose: '='
+    disableClose: '=?'
   replace: true
   transclude: true
   link: (scope, element, attrs) ->
@@ -46,7 +46,7 @@ app.directive 'modalDialog', ['ngModalDefaults', '$sce', (ngModalDefaults, $sce)
       scope.show = false
 
     scope.closeClick =  ->
-      if scope.allowClose? || scope.allowClose == true
+      unless scope.disableClose
         scope.hideModal()
 
     scope.$watch('show', (newVal, oldVal) ->
@@ -66,7 +66,7 @@ app.directive 'modalDialog', ['ngModalDefaults', '$sce', (ngModalDefaults, $sce)
                 <div class='ng-modal-overlay' ng-click='closeClick()'></div>
                 <div class='ng-modal-dialog' ng-style='dialogStyle'>
                   <span class='ng-modal-title' ng-show='dialogTitle && dialogTitle.length' ng-bind='dialogTitle'></span>
-                  <div ng-if='allowClose' class='ng-modal-close' ng-click='closeClick()'>
+                  <div ng-if='!disableClose' class='ng-modal-close' ng-click='closeClick()'>
                     <div ng-bind-html='closeButtonHtml'></div>
                   </div>
                   <div class='ng-modal-dialog-content' ng-transclude></div>

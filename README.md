@@ -49,7 +49,7 @@ There are a few options that be configured inline with attributes.
 | width          | 50%     | Width of the dialog. Can be specified in px or %.                 |
 | height         | 50%     | Height of the dialog. Can be specified in px or %.                |
 | on-close       | null    | Call a function when the dialog is closed. Ex: `on-close='foo()'` |
-| allow-close    | true    | Shows close button and closes on click of background              |
+| disable-close  | null    | Set truthy to hide close button and background click to close     |
 
 **Example:**
 
